@@ -54,9 +54,9 @@ public class MvcManager
     }
     void LoadCompletedTxt(string interim, string asset)
     {
-        ////Log.Log_hjx("LoadCompletedTxt " + numConfig + "  " + interim);
-        //string fileNameNotExt = Path.GetFileNameWithoutExtension(interim);
-        //ConfigManager.Ins.Add(fileNameNotExt, asset);
+        //Log.Log_hjx("LoadCompletedTxt " + numConfig + "  " + interim);
+        string fileNameNotExt = Path.GetFileNameWithoutExtension(interim);
+        ConfigManager.Ins.Add(fileNameNotExt, asset);
         //StartMediator startMediator = MediatorManager.Ins.GetBaseMediator(StartMediator.NAME) as StartMediator;
         //if (--numConfig == 0)
         //{
@@ -69,9 +69,9 @@ public class MvcManager
     }
     private void LoadCompletedBundle(string interim, UnityEngine.Object asset)
     {
-        ////Log.Log_hjx("LoadCompletedBundle " + numConfig + "  " + interim);
-        //string fileNameNotExt = Path.GetFileNameWithoutExtension(interim);
-        //ConfigManager.Ins.Add(fileNameNotExt, asset.ToString());
+        //Log.Log_hjx("LoadCompletedBundle " + numConfig + "  " + interim);
+        string fileNameNotExt = Path.GetFileNameWithoutExtension(interim);
+        ConfigManager.Ins.Add(fileNameNotExt, asset.ToString());
         //StartMediator startMediator = MediatorManager.Ins.GetBaseMediator(StartMediator.NAME) as StartMediator;
         //if (--numConfig == 0)
         //{
@@ -129,6 +129,7 @@ public class MvcManager
     {
         MediatorManager.Ins.AddBaseMediator(new LoadingMediator(), LoadingMediator.NAME);
         MediatorManager.Ins.AddBaseMediator(new TestMediator(), TestMediator.NAME);
+        MediatorManager.Ins.AddBaseMediator(new StartMediator(), StartMediator.NAME);
 
     }
     private void ConnectDelegate(bool isWait)
