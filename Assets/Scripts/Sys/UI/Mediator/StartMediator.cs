@@ -140,6 +140,7 @@ public class StartMediator : BaseMediator
 
     private void ClickDelegateTouchScreen(CButton source)
     {
+        Log.Log_sl("ClickDelegateTouchScreen");
         //Log.Log_hjx("go_Loading.Go.activeInHierarchy " + go_Loading.Go.activeInHierarchy);
         if (go_Loading.Go.activeInHierarchy == false)
         {

@@ -22,8 +22,8 @@ public class Game : MonoBehaviour
     List<BaseMediator> listUpdateOpen;
     //[HideInInspector]
     //public bool isRoleEntry;
-    //[HideInInspector]
-    //public TimeSystem timeSystem = new TimeSystem();
+    [HideInInspector]
+    public TimeSystem timeSystem = new TimeSystem();
     ////Editor
     //public bool isSim = true;//模拟无服务器模式
     public bool isDebug;//出错打印log
@@ -132,6 +132,7 @@ public class Game : MonoBehaviour
     {
         listUpdateOpen = new List<BaseMediator>();
         //无角色
+        listUpdateOpen.Add(MediatorManager.Ins.GetBaseMediator(StartMediator.NAME));
         listUpdateOpen.Add(MediatorManager.Ins.GetBaseMediator(LoadingMediator.NAME));
     }
 
@@ -158,33 +159,33 @@ public class Game : MonoBehaviour
         //    }
         //}
         //if (isPause) { return; }
-        //float deltaTime = timeSystem.Update();
-        //TimerMgr.Ins.Update(deltaTime);
+        float deltaTime = timeSystem.Update();
+        TimerMgr.Ins.Update(deltaTime);
         //HttpManager.Ins.UpdateSelf();
-        ////Log.Log_hjx("Update"+ deltaTime);
-        ////
-        //try
-        //{
-        //    //----------------ui
-        //    BaseMediator baseMediator;
-        //    for (int i = 0; i < listUpdateOpen.Count; i++)
-        //    {
-        //        baseMediator = listUpdateOpen[i];
-        //        if (baseMediator.IsOpen)
-        //        {
-        //            baseMediator.Update(deltaTime);
-        //        }
-        //    }
-        //    //----------------------战斗
-        //    if (MediatorManager.Ins.isBattle)
-        //    {
-        //        FightScene.Ins.Update(deltaTime);
-        //    }
-        //}
-        //catch (Exception e)
-        //{
-        //    Log.LogError_sys("Update Exception! : " + e);
-        //}
+        //Log.Log_hjx("Update"+ deltaTime);
+        //
+        try
+        {
+            //----------------ui
+            BaseMediator baseMediator;
+            for (int i = 0; i < listUpdateOpen.Count; i++)
+            {
+                baseMediator = listUpdateOpen[i];
+                if (baseMediator.IsOpen)
+                {
+                    baseMediator.Update(deltaTime);
+                }
+            }
+            //----------------------战斗
+            //if (MediatorManager.Ins.isBattle)
+            //{
+            //    FightScene.Ins.Update(deltaTime);
+            //}
+        }
+        catch (Exception e)
+        {
+            Log.LogError_sys("Update Exception! : " + e);
+        }
     }
 
     //private void SetPause(bool v)

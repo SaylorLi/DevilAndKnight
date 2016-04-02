@@ -14,6 +14,7 @@ public class MvcManager
 
     public void LoadAllConfig()
     {
+        Log.Log_sl("LoadAllConfig");
         //加载配置表
         listLoaded = CSVFilter.GetConfigList();
         numMax = numConfig = listLoaded.Count;
