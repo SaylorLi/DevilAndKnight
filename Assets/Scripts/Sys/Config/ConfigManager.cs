@@ -147,7 +147,7 @@ public class ConfigManager
                     vo = new ErrorCodeConfigVo();
                     break;
                 }
-            case CSVFilter.resversion:
+            case CSVFilter.version:
                 {
                     vo = new VersionConfigVo();
                     break;

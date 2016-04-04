@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class CSVFilter
 {
     //系统
-    public const string resversion = "resversion";
+    public const string version = "version";
     public const string error_code = "error_code";
 
     ////已使用
@@ -44,7 +44,7 @@ public class CSVFilter
         if (mConfigList == null)
         {
             mConfigList = new List<string>();
-            mConfigList.Add(resversion);
+            mConfigList.Add(version);
             mConfigList.Add(error_code);
             //mConfigList.Add(randomname);
             //mConfigList.Add(tutorial);

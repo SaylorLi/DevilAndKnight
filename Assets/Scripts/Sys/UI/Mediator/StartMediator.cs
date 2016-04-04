@@ -12,6 +12,7 @@ public class StartMediator : BaseMediator
     private CCheckbox cbLan;
     private CGameObject go_Loading;
     private CButton btn_Touch;
+    private CButton btn_Test;
     private CProgressBar pb_LoadingBar;
 
     private float counter = 0f;
@@ -34,6 +35,12 @@ public class StartMediator : BaseMediator
         btn_Touch = panel.GetCom("(Button)btn_Touch") as CButton;
         btn_Touch.SetClickDelegate(ClickDelegateTouchScreen);
         btn_Touch.SetStringSound(SoundConst.SE_FIX);
+
+        // 测试代码
+        btn_Test = panel.GetCom("(Button)btn_Test") as CButton;
+        btn_Test.SetClickDelegate(TestClickDelegate);
+
+
         pb_LoadingBar = panel.GetCom("(ProgressBar)pb_LoadingBar") as CProgressBar;
         //
         cbLan = panel.GetCom("(Checkbox)remeber") as CCheckbox;
@@ -136,7 +143,12 @@ public class StartMediator : BaseMediator
         isDynimic = true;
     }
 
+    private void TestClickDelegate(CButton source)
+    {
+        Log.Log_sl("TestClickDelegate");
 
+        Log.Log_sl(ConfigManager.Ins.Get<VersionConfigVo>(CSVFilter.version, "1").desc);
+    }
 
     private void ClickDelegateTouchScreen(CButton source)
     {
@@ -152,9 +164,9 @@ public class StartMediator : BaseMediator
             //}
             //else
             //{
-                OnGetKey();
+            OnGetKey();
             //}
-        } 
+        }
     }
 
     private void OnGetKey()
@@ -302,9 +314,9 @@ public class StartMediator : BaseMediator
 
     internal void ShowVersion()
     {
-        int c = ConfigManager.Ins.GetDic(CSVFilter.resversion).Count;
+        int c = ConfigManager.Ins.GetDic(CSVFilter.version).Count;
         //Log.Log_hjx("ccccccc " + c);
-        VersionConfigVo vo = ConfigManager.Ins.Get<VersionConfigVo>(CSVFilter.resversion, c.ToString());
+        VersionConfigVo vo = ConfigManager.Ins.Get<VersionConfigVo>(CSVFilter.version, c.ToString());
         if (vo != null)
         {
             lbl_ver.Text = strServerName + " 游戏版本:" /*+ PlatformManager.Ins.GetAppVersionName()*/ + "\n" + "配置表版本:" + vo.version;
