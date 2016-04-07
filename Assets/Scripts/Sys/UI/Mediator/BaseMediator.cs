@@ -5,8 +5,6 @@ using System.Collections;
 /// </summary>
 public abstract class BaseMediator
 {
-    //public const string NAME = "BaseMediator";
-    //
     public enum eBaseMediatorState
     {
         Open,
@@ -14,23 +12,34 @@ public abstract class BaseMediator
         Loading,
         NotLoad
     }
-    public bool isNoOpen = true;
+    /// <summary>
+    /// 是否没有打开过
+    /// </summary>
+    public bool neverOpen = true;
+    /// <summary>
+    /// 界面深度
+    /// </summary>
     public int depthOffset;
     protected bool isIn = false;
-    //
     protected bool isInit = true;
     protected CPanel panel;
     protected BoxCollider collider;
-    //public bool isAddColider = true;
-    //
     bool isFixed;//是否被固定,不会改变深度
     bool isOpen = false;
     eBaseMediatorState state = eBaseMediatorState.NotLoad;
     public static int count = 0;
+
     public BaseMediator()
     {
     }
+
+
     #region public
+
+
+    /// <summary>
+    /// 打开界面
+    /// </summary>
     public virtual void Open()
     {
         isOpen = true;
@@ -39,7 +48,6 @@ public abstract class BaseMediator
             UpdateWin();
             return;
         }
-
         if (state == eBaseMediatorState.NotLoad)
         {
             if (panel == null)
@@ -63,16 +71,18 @@ public abstract class BaseMediator
             DirectOpen();
         }
     }
-
+    /// <summary>
+    /// 关闭界面
+    /// </summary>
+    /// <param name="source">预留按钮</param>
     public virtual void Close(CButton source = null)
     {
         CloseWin();
     }
-
-    protected virtual void UnloadDynimicDownload()
-    {
-    }
-
+    /// <summary>
+    /// 设置界面深度
+    /// </summary>
+    /// <param name="z">界面深度</param>
     public void SetFix(int z)
     {
         IsFixed = true;
@@ -85,6 +95,15 @@ public abstract class BaseMediator
         {
             Position = new Vector3(0, 0, -z);
         }
+    }
+    public virtual void SetDepthOffset(int offset)
+    {
+        if (depthOffset == offset)
+        {
+            return;
+        }
+        depthOffset = offset;
+        UITool.SetAllDepthOffset(offset, panel.Go);
     }
     /// <summary>
     /// 切换开关状态.
@@ -100,11 +119,15 @@ public abstract class BaseMediator
             Open();
         }
     }
+    /// <summary>
+    /// 更新界面，界面打开时每一帧调用，需要加入Game的listUpdateOpen列表
+    /// </summary>
+    /// <param name="deltaTime"></param>
     public virtual void Update(float deltaTime)
     {
     }
     /// <summary>
-    /// 更新视图.每次打开界面都调用.
+    /// 更新窗口，每次打开界面调用一次
     /// </summary>
     public virtual void UpdateWin()
     {
@@ -116,76 +139,20 @@ public abstract class BaseMediator
     {
         CloseWin();
         state = eBaseMediatorState.NotLoad;
-        isNoOpen = true;
+        neverOpen = true;
     }
-
-    private void CloseWin()
-    {
-        isOpen = false;
-        if (IsOpen)
-        {
-            SoundManager.Ins.sePlayer.PlaySE(SoundConst.se_window_close);
-            UnloadDynimicDownload();
-            if (++count > 20)
-            {
-                count = 0;
-                Resources.UnloadUnusedAssets();
-            }
-            //MediatorManager.Ins.CloseWin(this);
-            panel.SetActive(isOpen);
-            state = eBaseMediatorState.Close;
-        }
-    }
-    #endregion
-    #region get-set
-    public bool IsOpen
-    {
-        get
-        {
-            return state == eBaseMediatorState.Open;
-        }
-    }
-    public Vector3 Position
-    {
-        set
-        {
-            panel.Go.transform.localPosition = value;
-        }
-        get
-        {
-            return panel.Go.transform.localPosition;
-        }
-    }
-
-    public bool IsFixed
-    {
-        set
-        {
-            isFixed = value;
-        }
-        get
-        {
-            return isFixed;
-        }
-    }
-
+    /// <summary>
+    /// 加载窗口
+    /// </summary>
     public virtual void LoadWin()
     {
         //state = eBaseMediatorState.Loading;
     }
-    public virtual void SetDepthOffset(int offset)
-    {
-        if (depthOffset == offset)
-        {
-            return;
-        }
-        depthOffset = offset;
-        UITool.SetAllDepthOffset(offset, panel.Go);
-    }
-    public int GetDepthOffset()
-    {
-        return depthOffset;
-    }
+    /// <summary>
+    /// 加载窗口完成
+    /// </summary>
+    /// <param name="name">界面名称</param>
+    /// <param name="asset">界面预设</param>
     public void LoadWinComplete(string name, UnityEngine.Object asset)
     {
         GameObject go = asset as GameObject;
@@ -193,12 +160,9 @@ public abstract class BaseMediator
         //transform = o.transform;
         panel = CPanel.CreatePanel(go);
         UITool.AddChild(panel.Go, UIRootManager.Ins.goAnchor);
-        //
-        //if (isAddColider)
-        //{
+        
         //增加界面碰撞盒
         AddCollider();
-        //}
 
         if (isOpen)
         {
@@ -222,7 +186,7 @@ public abstract class BaseMediator
     /// </summary>
     public virtual void OpenInFirst()
     {
-        if (isNoOpen)
+        if (neverOpen)
         {
             isIn = true;
             MediatorManager.Ins.OpenLoading(eLoadingMediatorType.loading_in, Open);
@@ -232,10 +196,67 @@ public abstract class BaseMediator
             Open();
         }
     }
+
+
+    #endregion
+
+
+    #region get-set
+
+
+    /// <summary>
+    /// 界面是否开启
+    /// </summary>
+    public bool IsOpen
+    {
+        get
+        {
+            return state == eBaseMediatorState.Open;
+        }
+    }
+    /// <summary>
+    /// 初始位置
+    /// </summary>
+    public Vector3 Position
+    {
+        set
+        {
+            panel.Go.transform.localPosition = value;
+        }
+        get
+        {
+            return panel.Go.transform.localPosition;
+        }
+    }
+    /// <summary>
+    /// 界面深度是否固定不变
+    /// </summary>
+    public bool IsFixed
+    {
+        set
+        {
+            isFixed = value;
+        }
+        get
+        {
+            return isFixed;
+        }
+    }
+    /// <summary>
+    /// 获得界面深度
+    /// </summary>
+    /// <returns></returns>
+    public int GetDepthOffset()
+    {
+        return depthOffset;
+    }
+
     #endregion
 
     #region protected
-
+    protected virtual void UnloadDynimicDownload()
+    {
+    }
     protected virtual void OpenOut()
     {
         if (isIn)
@@ -253,6 +274,26 @@ public abstract class BaseMediator
     #endregion
 
     #region private
+    private void CloseWin()
+    {
+        isOpen = false;
+        if (IsOpen)
+        {
+            SoundManager.Ins.sePlayer.PlaySE(SoundConst.se_window_close);
+            UnloadDynimicDownload();
+            if (++count > 20)
+            {
+                count = 0;
+                Resources.UnloadUnusedAssets();
+            }
+            //MediatorManager.Ins.CloseWin(this);
+            panel.SetActive(isOpen);
+            state = eBaseMediatorState.Close;
+        }
+    }
+    /// <summary>
+    /// 增加界面碰撞盒
+    /// </summary>
     private void AddCollider()
     {
         GameObject o = panel.Go;
@@ -265,14 +306,17 @@ public abstract class BaseMediator
         collider.size = new Vector3(2000, 2000, 0);
         collider.isTrigger = true;
     }
+    /// <summary>
+    /// 直接打开
+    /// </summary>
     private void DirectOpen()
     {
         SoundManager.Ins.sePlayer.PlaySE(SoundConst.se_window_open);
         state = eBaseMediatorState.Open;
         panel.SetActive(isOpen);
-        if (isNoOpen)
+        if (neverOpen)
         {
-            isNoOpen = false;
+            neverOpen = false;
             FirstOpen();
         }
         //MediatorManager.Ins.OpenWin(this);

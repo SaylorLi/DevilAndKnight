@@ -128,9 +128,12 @@ public class MvcManager
     }
     private void InitMediator()
     {
-        MediatorManager.Ins.AddBaseMediator(new LoadingMediator(), LoadingMediator.NAME);
-        MediatorManager.Ins.AddBaseMediator(new TestMediator(), TestMediator.NAME);
+        // 模板
+        MediatorManager.Ins.AddBaseMediator(new TemplateMediator(), TemplateMediator.NAME);
+
+        // 注册中间件
         MediatorManager.Ins.AddBaseMediator(new StartMediator(), StartMediator.NAME);
+        MediatorManager.Ins.AddBaseMediator(new LoadingMediator(), LoadingMediator.NAME);
 
     }
     private void ConnectDelegate(bool isWait)

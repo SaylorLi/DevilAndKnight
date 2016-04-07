@@ -53,6 +53,8 @@ public class Game : MonoBehaviour
     //public int Init_Diamond = 0;
     //public bool isQuitSave = false;
     //bool isPause;
+    [HideInInspector]
+    public bool isBattle = false;
 
     internal void Publish()
     {
@@ -177,10 +179,10 @@ public class Game : MonoBehaviour
                 }
             }
             //----------------------战斗
-            //if (MediatorManager.Ins.isBattle)
-            //{
-            //    FightScene.Ins.Update(deltaTime);
-            //}
+            if (MediatorManager.Ins.isBattle)
+            {
+                //FightScene.Ins.Update(deltaTime);
+            }
         }
         catch (Exception e)
         {
@@ -219,5 +221,26 @@ public class Game : MonoBehaviour
         // 测试 CSV config
         //Debug.Log(ConfigManager.Ins.Get<VersionConfigVo>(CSVFilter.resversion, "1").desc);
     }
+
+    public void EntryBattle()
+    {
+        //PlatformManager.Ins.U2A_HiddeButton();
+        SoundManager.Ins.bgmPlayer.StopAll();
+        BundleManager.Ins.ReleaseAll(true);
+        //SequenceManager.Ins.ChangeSequence(SequenceManager.Battle, true);
+        SoundManager.Ins.bgmPlayer.Play(SoundConst.bgm_fight);
+        isBattle = true;
+    }
+
+    public void ExitBattle(bool isForce = false)
+    {
+        //PlatformManager.Ins.U2A_ShowButton();
+        isBattle = false;
+        if (isForce)
+        {
+            //SequenceManager.Ins.ChangeSequence(SequenceManager.Main);
+        }
+    }
+    ////
 }
 

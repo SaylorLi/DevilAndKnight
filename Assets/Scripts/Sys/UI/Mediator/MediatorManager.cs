@@ -36,7 +36,7 @@ public class MediatorManager
     {
         foreach (BaseMediator bm in dicBaseMediator.Values)
         {
-            if (bm.isNoOpen == false)
+            if (bm.neverOpen == false)
             {
                 bm.DestoryWin();
             }
@@ -157,86 +157,61 @@ public class MediatorManager
     //    //GetBaseMediator(MenuMediator.NAME).Open();
     //}
     ////---
-    //public void EntryBattle()
-    //{
-    //    PlatformManager.Ins.U2A_HiddeButton();
-    //    SoundManager.Ins.bgmPlayer.StopAll();
-    //    BundleManager.Ins.ReleaseAll(true);
-    //    SequenceManager.Ins.ChangeSequence(SequenceManager.Battle, true);
-    //    SoundManager.Ins.bgmPlayer.Play(SoundConst.bgm_fight);
-    //    isBattle = true;
-    //}
-
-    //public void ExitBattle(bool isForce = false)
-    //{
-    //    PlatformManager.Ins.U2A_ShowButton();
-    //    isBattle = false;
-    //    //FightScene.Ins.Clear();
-    //    //
-    //    if (isForce)
-    //    {
-    //        SequenceManager.Ins.ChangeSequence(SequenceManager.Main);
-    //    }
-    //    else
-    //    {
-    //        //SoundManager.GetBgmPlayer().Play(SoundConstants.BGM_MAIN);
-    //    }
-    //}
-    ////
+    
     public void OpenLoading(eLoadingMediatorType type, VoidDelegate voidDelegate)
     {
         LoadingMediator loadingMediator = GetBaseMediator(LoadingMediator.NAME) as LoadingMediator;
         loadingMediator.OpenLoading(type, voidDelegate);
     }
-    ////
-    ///// <summary>
-    ///// 一个确定按钮 无回调
-    ///// </summary>
-    //public void OpenPopUpMediator(string content)
-    //{
-    //    PopUpMediator popUpMediator = MediatorManager.Ins.GetBaseMediator(PopUpMediator.NAME) as PopUpMediator;
-    //    PopUpVo vo = new PopUpVo();
-    //    vo.content = content;
-    //    vo.title = "提示";
-    //    vo.OkDelegate = popUpMediator.CloseWin;
-    //    popUpMediator.OpenPupUp(vo);
-    //}
-    ///// <summary>
-    ///// 两个按钮 有回调
-    ///// </summary>
-    //public void OpenPopUpMediatorTwo(string content, VoidDelegate mSureDelegate)
-    //{
-    //    PopUpMediator popUpMediator = MediatorManager.Ins.GetBaseMediator(PopUpMediator.NAME) as PopUpMediator;
-    //    PopUpVo vo = new PopUpVo();
-    //    vo.content = content;
-    //    vo.title = "提示";
-    //    vo.CanelDelegate = popUpMediator.CloseWin;
-    //    vo.mSureDelegate = mSureDelegate;
-    //    popUpMediator.OpenPupUp(vo);
-    //}
-    ///// <summary>
-    ///// 一个确定按钮 有回调
-    ///// </summary>
-    //public void OpenPopUpMediatorOne(string content, VoidDelegate mSureDelegate)
-    //{
-    //    PopUpMediator popUpMediator = MediatorManager.Ins.GetBaseMediator(PopUpMediator.NAME) as PopUpMediator;
-    //    PopUpVo vo = new PopUpVo();
-    //    vo.content = content;
-    //    vo.title = "提示";
-    //    vo.OkDelegate = mSureDelegate;
-    //    popUpMediator.OpenPupUp(vo);
-    //}
+    //
+    /// <summary>
+    /// 一个确定按钮 无回调
+    /// </summary>
+    public void OpenPopUpMediator(string content)
+    {
+        PopUpMediator popUpMediator = MediatorManager.Ins.GetBaseMediator(PopUpMediator.NAME) as PopUpMediator;
+        PopUpVo vo = new PopUpVo();
+        vo.content = content;
+        vo.title = "提示";
+        vo.OkDelegate = popUpMediator.CloseWin;
+        popUpMediator.OpenPupUp(vo);
+    }
+    /// <summary>
+    /// 两个按钮 有回调
+    /// </summary>
+    public void OpenPopUpMediatorTwo(string content, VoidDelegate mSureDelegate)
+    {
+        PopUpMediator popUpMediator = MediatorManager.Ins.GetBaseMediator(PopUpMediator.NAME) as PopUpMediator;
+        PopUpVo vo = new PopUpVo();
+        vo.content = content;
+        vo.title = "提示";
+        vo.CanelDelegate = popUpMediator.CloseWin;
+        vo.mSureDelegate = mSureDelegate;
+        popUpMediator.OpenPupUp(vo);
+    }
+    /// <summary>
+    /// 一个确定按钮 有回调
+    /// </summary>
+    public void OpenPopUpMediatorOne(string content, VoidDelegate mSureDelegate)
+    {
+        PopUpMediator popUpMediator = MediatorManager.Ins.GetBaseMediator(PopUpMediator.NAME) as PopUpMediator;
+        PopUpVo vo = new PopUpVo();
+        vo.content = content;
+        vo.title = "提示";
+        vo.OkDelegate = mSureDelegate;
+        popUpMediator.OpenPupUp(vo);
+    }
 
-    //public void OpenPopUpMediatorTwo(string content, VoidDelegate mCancelDelegate, VoidDelegate mSureDelegate)
-    //{
-    //    PopUpMediator popUpMediator = MediatorManager.Ins.GetBaseMediator(PopUpMediator.NAME) as PopUpMediator;
-    //    PopUpVo vo = new PopUpVo();
-    //    vo.content = content;
-    //    vo.title = "提示";
-    //    vo.CanelDelegate = mCancelDelegate;
-    //    vo.mSureDelegate = mSureDelegate;
-    //    popUpMediator.OpenPupUp(vo);
-    //}
+    public void OpenPopUpMediatorTwo(string content, VoidDelegate mCancelDelegate, VoidDelegate mSureDelegate)
+    {
+        PopUpMediator popUpMediator = MediatorManager.Ins.GetBaseMediator(PopUpMediator.NAME) as PopUpMediator;
+        PopUpVo vo = new PopUpVo();
+        vo.content = content;
+        vo.title = "提示";
+        vo.CanelDelegate = mCancelDelegate;
+        vo.mSureDelegate = mSureDelegate;
+        popUpMediator.OpenPupUp(vo);
+    }
     //public void TutorialProcess()
     //{
     //    //Log.Log_hjx("TutorialProcess ");

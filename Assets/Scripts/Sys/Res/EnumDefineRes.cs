@@ -29,12 +29,17 @@
     /// </summary>
     ERR_OTHER
 }
+
+/// <summary>
+/// 优先级
+/// </summary>
 public enum ELoadPriority
 {
     Low,
     Normal,
     High
 }
+
 /// <summary>
 /// 下载后的处理方式
 /// </summary>
